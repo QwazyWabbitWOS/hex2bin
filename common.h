@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
+#include <errno.h>
+#ifndef _WIN32
+#include <linux/limits.h>
+#endif
 
 #include "binary.h"
 #include "libcrc.h"
@@ -25,13 +30,12 @@
 #define _IS_OPTION_(x)	 ((x) == '-')
 #endif
 
-/* We use buffer to speed disk access. */
-#ifdef USE_FILE_BUFFERS
-#define BUFFSZ 4096
-#endif
-
 /* FIXME how to get it from the system/OS? */
-#define MAX_FILE_NAME_SIZE 260
+#ifdef _WIN32
+#define MAX_FILE_NAME_SIZE _MAX_PATH // Windows defines _MAX_PATH in <stdlib.h>
+#else
+#define MAX_FILE_NAME_SIZE PATH_MAX // Linux defines PATH_MAX in <linux/limits.h>
+#endif
 
 #ifdef DOS
 #define MAX_EXTENSION_SIZE 4
@@ -79,11 +83,6 @@ extern char        Extension[MAX_EXTENSION_SIZE];       /* filename extension fo
 
 extern FILE        *Filin,             /* input files */
             *Filout;            /* output files */
-
-#ifdef USE_FILE_BUFFERS
-char		*FilinBuf,          /* text buffer for file input */
-            *FiloutBuf;         /* text buffer for file output */
-#endif
 
 extern int Pad_Byte;
 extern bool Enable_Checksum_Error;

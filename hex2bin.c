@@ -284,8 +284,7 @@ int main (int argc, char *argv[])
                 break;
             }
         }
-    }
-    while (!feof (Filin));
+    } while (!feof (Filin));
 
     if (Address_Alignment_Word)
         Highest_Address += (Highest_Address - Lowest_Address) + 1;
@@ -452,8 +451,7 @@ int main (int argc, char *argv[])
                 break;
             }
         }
-    }
-    while (!feof (Filin));
+	} while (!feof(Filin));
     /*-----------------------------------------------------------------------------*/
 
     fprintf(stdout,"Binary file start = %08X\n",Lowest_Address);
